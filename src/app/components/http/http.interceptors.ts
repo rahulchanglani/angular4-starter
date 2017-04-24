@@ -10,24 +10,28 @@ import {
 } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { LoadingBarService } from '../loading-bar/loading-bar.service';
 
 @Injectable()
 export class HttpInterceptors extends Http {
-	private loadingBar: SlimLoadingBarService;
+	loadingBarService: LoadingBarService;
 
 	constructor(backend: ConnectionBackend,
-	            defaultOptions: RequestOptions,
-	            loadingBar: SlimLoadingBarService) {
+	            defaultOptions: RequestOptions) {
 		super(backend, defaultOptions);
-		this.loadingBar = loadingBar;
 	}
 
 	request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-		this.loadingBar.start();
+		console.log('entry request');
 		return super.request(url, options)
 			.finally(() => {
-				this.loadingBar.complete();
+				this.response();
 			});
+	}
+
+	response() {
+	}
+
+	reponseError() {
 	}
 }

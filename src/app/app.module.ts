@@ -24,11 +24,12 @@ import { HeaderComponent } from './commons/header/header.component';
 import { FooterComponent } from './commons/footer/footer.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { routing } from './app.routing';
 import { SharedModule } from './commons/shared.module';
 
 import { HttpInterceptors } from './components/http/http.interceptors';
+import { LoadingBarModule } from './components/loading-bar/loading-bar.module';
+import { LoadingBarService } from './components/loading-bar/loading-bar.service';
 
 @NgModule({
     imports: [
@@ -48,7 +49,8 @@ import { HttpInterceptors } from './components/http/http.interceptors';
 	    LoginModule,
 	    MyAccountModule,
 	    AboutModule,
-	    UnavailableModule
+	    UnavailableModule,
+	    LoadingBarModule
     ],
     declarations: [
         AppComponent,
@@ -62,10 +64,10 @@ import { HttpInterceptors } from './components/http/http.interceptors';
         HttpFallback,
 	    {
 		    provide: Http,
-		    useFactory: (backend: XHRBackend, options: RequestOptions, loadingBar: SlimLoadingBarService) => {
-			    return new HttpInterceptors(backend, options, loadingBar);
+		    useFactory: (backend: XHRBackend, options: RequestOptions) => {
+			    return new HttpInterceptors(backend, options);
 		    },
-		    deps: [XHRBackend, RequestOptions, SlimLoadingBarService]
+		    deps: [XHRBackend, RequestOptions]
 	    }
     ],
     bootstrap: [ AppComponent ]
